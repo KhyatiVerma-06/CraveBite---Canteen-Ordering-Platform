@@ -1,0 +1,352 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CraveBite</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{% static 'images/Logo.png' %}" alt="CraveBite Logo">
+        </div>
+        <div class="nav-links">
+            <a href="#" class="active">Home</a>
+            <a href="{% url 'menu' %}">Menu</a>
+            <a href="{% url 'cart' %}">Cart 🛒</a>
+            <a href="{% url 'offers' %}">Offers</a>
+            <a href="{% url 'about' %}">About </a>
+        </div>
+        <div class="nav-buttons">
+            <a href="{% url 'login' %}" class="login-btn">Login</a>
+            <a href="{% url 'signup' %}" class="cart-btn">Sign Up</a>
+        </div>
+    </nav>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-small-text">
+                🍕 Delicious food, delivered fresh
+            </p>
+            <h1>
+                Your cravings.
+                <span>Our delivery.</span>
+            </h1>
+            <p class="hero-description">
+                Discover the best food, explore amazing restaurants
+                and get your favourite meals delivered to your doorstep.
+            </p>
+            <div class="hero-search">
+                <span>🔍</span>
+                <input type="text" placeholder="Search for pizza, burger, biryani...">
+                <button>
+                    Search
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOD CATEGORIES -->
+    <section class="categories">
+        <div class="section-heading">
+            <p>WHAT ARE YOU CRAVING?</p>
+            <h2>Explore Food Categories</h2>
+        </div>
+        <div class="category-container">
+            <div class="category-item">
+                <img src="{% static 'images/pizza.png' %}" alt="Pizza">
+                <h3>Pizza</h3>
+            </div>
+            <div class="category-item">
+                <img src="{% static 'images/burger.png' %}" alt="Burger">
+                <h3>Burger</h3>
+            </div>
+            <div class="category-item">
+                <img src="{% static 'images/biryani.png' %}" alt="Biryani">
+                <h3>Biryani</h3>
+            </div>
+            <div class="category-item">
+                <img src="{% static 'images/noodles.png' %}" alt="Noodles">
+                <h3>Noodles</h3>
+            </div>
+            <div class="category-item">
+                <img src="{% static 'images/dessert.png' %}" alt="Desserts">
+                <h3>Desserts</h3>
+            </div>
+            <div class="category-item">
+                <img src="{% static 'images/drinks.png' %}" alt="Drinks">
+                <h3>Drinks</h3>
+            </div>
+            <div class="category-item extra-food">
+                <img src="{% static 'images/fried_chicken.png' %}" alt="Drinks">
+                <h3>Fried Chicken</h3>
+            </div>
+            <div class="category-item extra-food">
+                <img src="{% static 'images/fries.png' %}" alt="Drinks">
+                <h3>Fries</h3>
+            </div>
+            <div class="category-item extra-food">
+                <img src="{% static 'images/iced_coffee.png' %}" alt="Drinks">
+                <h3>Iced Coffee</h3>
+            </div>
+            <div class="category-item extra-food">
+                <img src="{% static 'images/lava_cake.png' %}" alt="Drinks">
+                <h3>Lava Cake</h3>
+            </div>
+            <div class="category-item extra-food">
+                <img src="{% static 'images/lemonade.png' %}" alt="Drinks">
+                <h3>Lemonade</h3>
+            </div>
+            <div class="category-item extra-food">
+                <img src="{% static 'images/milkshake.png' %}" alt="Drinks">
+                <h3>Milkshake</h3>
+            </div>
+            <div class="category-item extra-food">
+                <img src="{% static 'images/momos.png' %}" alt="Drinks">
+                <h3>Momos</h3>
+            </div>
+            <div class="category-item extra-food">
+                <img src="{% static 'images/tacos.png' %}" alt="Drinks">
+                <h3>Tacos</h3>
+            </div>
+
+            <!-- SHOW MORE -->
+            <button class="show-more-btn" id="showMoreBtn">
+                Show More
+                <span>→</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+
+    <section class="contact-section">
+
+        <div class="section-heading">
+
+            <p>GET IN TOUCH</p>
+
+            <h2>Visit CraveBite</h2>
+
+        </div>
+
+
+        <div class="contact-container">
+
+            <!-- ADDRESS -->
+
+            <div class="contact-item">
+
+                <div class="contact-icon">
+                    📍
+                </div>
+
+                <h3>Our Location</h3>
+
+                <p>
+                    123 Food Street,<br>
+                    New Delhi, India
+                </p>
+
+            </div>
+
+
+            <!-- PHONE -->
+
+            <div class="contact-item">
+
+                <div class="contact-icon">
+                    📞
+                </div>
+
+                <h3>Call Us</h3>
+
+                <p>
+                    +91 98765 43210
+                </p>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="contact-item">
+
+                <div class="contact-icon">
+                    ✉️
+                </div>
+
+                <h3>Email Us</h3>
+
+                <p>
+                    hello@cravebite.com
+                </p>
+
+            </div>
+
+
+            <!-- TIMING -->
+
+            <div class="contact-item">
+
+                <div class="contact-icon">
+                    🕐
+                </div>
+
+                <h3>Opening Hours</h3>
+
+                <p>
+                    Monday - Sunday<br>
+                    10:00 AM - 11:00 PM
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <!-- BRAND -->
+
+            <div class="footer-brand">
+
+                <img src="{% static 'images/Logo.png' %}" alt="CraveBite Logo">
+
+                <p>
+                    Delicious food, fresh ingredients
+                    and unforgettable flavours.
+                </p>
+
+            </div>
+
+
+            <!-- QUICK LINKS -->
+
+            <div class="footer-column">
+
+                <h3>Quick Links</h3>
+
+                <a href="{% url 'home' %}">
+                    Home
+                </a>
+
+                <a href="{% url 'menu' %}">
+                    Menu
+                </a>
+
+                <a href="{% url 'offers' %}">
+                    Offers
+                </a>
+
+                <a href="{% url 'about' %}">
+                    About
+                </a>
+
+            </div>
+
+
+            <!-- MENU -->
+
+            <div class="footer-column">
+
+                <h3>Our Menu</h3>
+
+                <a href="{% url 'menu' %}">
+                    Pizza
+                </a>
+
+                <a href="{% url 'menu' %}">
+                    Burger
+                </a>
+
+                <a href="{% url 'menu' %}">
+                    Biryani
+                </a>
+
+                <a href="{% url 'menu' %}">
+                    Desserts
+                </a>
+
+            </div>
+
+
+            <!-- CONTACT -->
+
+            <div class="footer-column">
+
+                <h3>Contact Us</h3>
+
+                <p>📍 New Delhi, India</p>
+
+                <p>📞 +91 98765 43210</p>
+
+                <p>✉️ hello@cravebite.com</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- BOTTOM -->
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 CraveBite. All rights reserved.
+            </p>
+
+            <div class="social-links">
+
+                <a href="#">Instagram</a>
+
+                <a href="#">Facebook</a>
+
+                <a href="#">Twitter</a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+    <script>
+
+        const showMoreBtn = document.getElementById("showMoreBtn");
+
+        const categoryContainer =
+            document.querySelector(".category-container");
+
+
+        showMoreBtn.addEventListener("click", function () {
+
+            categoryContainer.classList.toggle("show-all");
+
+
+            if (categoryContainer.classList.contains("show-all")) {
+
+                showMoreBtn.innerHTML =
+                    'Show Less <span> ← </span>';
+
+            } else {
+
+                showMoreBtn.innerHTML =
+                    'Show More <span>→</span>';
+
+            }
+
+        });
+
+    </script>
+</body>
+
+</html>

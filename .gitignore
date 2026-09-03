@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+
+foodWorld/
+venv/
+env/
+
+.env
+
+*.sqlite3
+
+.vscode/

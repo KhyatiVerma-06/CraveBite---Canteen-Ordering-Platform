@@ -1,0 +1,298 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CraveBite | About Us</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            <img src="{% static 'images/Logo.png' %}" alt="CraveBite Logo">
+
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'menu' %}">
+                Menu
+            </a>
+
+            <a href="{% url 'cart' %}">Cart 🛒</a>
+            <a href="{% url 'offers' %}">
+                Offers
+            </a>
+
+            <a href="{% url 'about' %}" class="active">
+                About
+            </a>
+
+        </div>
+
+
+        <div class="nav-buttons">
+
+            <a href="{% url 'login' %}" class="login-btn">Login</a>
+            <a href="{% url 'signup' %}" class="cart-btn">Sign Up</a> 
+
+        </div>
+
+    </nav>
+
+
+    <!-- ABOUT PAGE -->
+
+    <section class="about-page">
+
+        <div class="about-content">
+
+            <p class="about-small-title">
+                WELCOME TO CRAVEBITE
+            </p>
+
+            <h1>
+                Good Food.
+                <span>Good Mood.</span>
+            </h1>
+
+            <p class="about-text">
+
+                At CraveBite, we believe that great food
+                brings people together. We prepare every
+                dish with fresh ingredients, delicious
+                flavours and a whole lot of love.
+
+            </p>
+
+            <p class="about-text">
+
+                From cheesy pizzas and juicy burgers to
+                aromatic biryani and refreshing drinks,
+                our menu is created to satisfy every craving.
+
+            </p>
+
+            <a href="{% url 'menu' %}" class="about-btn">
+                Explore Our Menu
+            </a>
+
+        </div>
+
+
+        <div class="about-image">
+
+            <img src="{% static 'images/about.png' %}" alt="CraveBite Food">
+
+        </div>
+
+    </section>
+
+
+    <!-- WHY CRAVEBITE -->
+
+    <section class="why-section">
+
+        <div class="section-heading">
+
+            <p>WHY CRAVEBITE?</p>
+
+            <h2>
+                Made Fresh. Served With Love.
+            </h2>
+
+        </div>
+
+
+        <div class="why-container">
+
+
+            <div class="why-item">
+
+                <div class="why-icon">
+                    🥬
+                </div>
+
+                <h3>
+                    Fresh Ingredients
+                </h3>
+
+                <p>
+                    We use fresh and quality ingredients
+                    in every dish we prepare.
+                </p>
+
+            </div>
+
+
+            <div class="why-item">
+
+                <div class="why-icon">
+                    👨‍🍳
+                </div>
+
+                <h3>
+                    Expertly Prepared
+                </h3>
+
+                <p>
+                    Every dish is prepared with care,
+                    passion and attention to detail.
+                </p>
+
+            </div>
+
+
+            <div class="why-item">
+
+                <div class="why-icon">
+                    ❤️
+                </div>
+
+                <h3>
+                    Made With Love
+                </h3>
+
+                <p>
+                    We put our heart into every meal
+                    we serve to our customers.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <!-- BRAND -->
+
+            <div class="footer-brand">
+
+                <img src="{% static 'images/Logo.png' %}" alt="CraveBite Logo">
+
+                <p>
+                    Delicious food, fresh ingredients
+                    and unforgettable flavours.
+                </p>
+
+            </div>
+
+
+            <!-- QUICK LINKS -->
+
+            <div class="footer-column">
+
+                <h3>Quick Links</h3>
+
+                <a href="{% url 'home' %}">
+                    Home
+                </a>
+
+                <a href="{% url 'menu' %}">
+                    Menu
+                </a>
+
+                <a href="{% url 'offers' %}">
+                    Offers
+                </a>
+
+                <a href="{% url 'about' %}">
+                    About
+                </a>
+
+            </div>
+
+
+            <!-- MENU -->
+
+            <div class="footer-column">
+
+                <h3>Our Menu</h3>
+
+                <a href="{% url 'menu' %}">
+                    Pizza
+                </a>
+
+                <a href="{% url 'menu' %}">
+                    Burger
+                </a>
+
+                <a href="{% url 'menu' %}">
+                    Biryani
+                </a>
+
+                <a href="{% url 'menu' %}">
+                    Desserts
+                </a>
+
+            </div>
+
+
+            <!-- CONTACT -->
+
+            <div class="footer-column">
+
+                <h3>Contact Us</h3>
+
+                <p>📍 New Delhi, India</p>
+
+                <p>📞 +91 98765 43210</p>
+
+                <p>✉️ hello@cravebite.com</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- BOTTOM -->
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 CraveBite. All rights reserved.
+            </p>
+
+            <div class="social-links">
+
+                <a href="#">Instagram</a>
+
+                <a href="#">Facebook</a>
+
+                <a href="#">Twitter</a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,473 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Menu - CraveBite</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+
+        <div class="logo">
+            <img src="{% static 'images/Logo.png' %}" alt="CraveBite Logo">
+        </div>
+
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'menu' %}" class="active">Menu</a>
+            <a href="{% url 'cart' %}">Cart 🛒</a>
+            <a href="{% url 'offers' %}">Offers</a>
+            <a href="{% url 'about' %}">About</a>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="{% url 'login' %}" class="login-btn">Login</a>
+            <a href="{% url 'signup' %}" class="cart-btn">Sign Up</a>
+        </div>
+
+    </nav>
+
+
+    <!-- Menu -->
+    <section class="menu-section">
+
+        <div class="section-heading">
+            <p>OUR MENU</p>
+            <h2>Choose Your Favourite Food</h2>
+        </div>
+
+
+        <div class="menu-category">
+
+            <div class="category-title">
+                <h2>Pizza</h2>
+                <p>Freshly baked, cheesy and delicious</p>
+            </div>
+
+            <div class="menu-items">
+
+                {% for food in food_items %}
+                {% if food.category == "Pizza" %}
+
+                <div class="menu-card">
+
+                    <div class="menu-card-image">
+
+                        {% if food.name == "Margherita Pizza" %}
+                        <img src="{% static 'images/Margherita Pizza.png' %}" alt="{{ food.name }}">
+
+                        {% elif food.name == "Double Cheese Pizza" %}
+                        <img src="{% static 'images/Double Cheese Pizza.png' %}" alt="{{ food.name }}">
+
+                        {% elif food.name == "Farmhouse Pizza" %}
+                        <img src="{% static 'images/Farmhouse Pizza.png' %}" alt="{{ food.name }}">
+
+                        {% elif food.name == "Paneer Tikka Pizza" %}
+                        <img src="{% static 'images/Paneer Tikka Pizza.png' %}" alt="{{ food.name }}">
+                        {% endif %}
+
+                    </div>
+
+                    <div class="menu-card-content">
+
+                        <h3>{{ food.name }}</h3>
+
+                        <p>{{ food.description }}</p>
+
+                        <div class="menu-card-bottom">
+                            <span class="price">₹{{ food.price }}</span>
+                            <a href="{% url 'add_to_cart' food.id %}" class="add-btn">+ Add</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        <div class="menu-category">
+
+            <div class="category-title">
+                <h2>Burger</h2>
+                <p>Juicy, crispy and loaded with flavor</p>
+            </div>
+
+            <div class="menu-items">
+
+                {% for food in food_items %}
+                {% if food.category == "Burger" %}
+
+                <div class="menu-card">
+
+                    <div class="menu-card-image">
+                        {% if food.name == "Classic Burger" %}
+                        <img src="{% static 'images/ClassicBurger.png' %}" alt="{{ food.name }}">
+                        {% elif food.name == "Classic Cheese Burger" %}
+                        <img src="{% static 'images/ClassicCheeseBurger.png' %}" alt="{{ food.name }}">
+                        {% elif food.name == "Veg Supreme Burger" %}
+                        <img src="{% static 'images/VegSupremeBurger.png' %}" alt="{{ food.name }}">
+                        {% elif food.name == "Spicy Crispy Burger" %}
+                        <img src="{% static 'images/SpicyCrispyBurger.png' %}" alt="{{ food.name }}">
+                        {% endif %}
+                    </div>
+
+                    <div class="menu-card-content">
+                        <h3>{{ food.name }}</h3>
+                        <p>{{ food.description }}</p>
+
+                        <div class="menu-card-bottom">
+                            <span class="price">₹{{ food.price }}</span>
+                            <a href="{% url 'add_to_cart' food.id %}" class="add-btn">+ Add</a>
+                        </div>
+                    </div>
+
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+            </div>
+
+        </div>
+        <div class="menu-category">
+
+            <div class="category-title">
+                <h2>Biryani</h2>
+                <p>Fragrant, flavorful and perfectly cooked</p>
+            </div>
+
+            <div class="menu-items">
+
+                {% for food in food_items %}
+                {% if food.category == "Biryani" %}
+
+                <div class="menu-card">
+
+                    <div class="menu-card-image">
+
+                        {% if food.name == "Chicken Biryani" %}
+                        <img src="{% static 'images/chicken_biryani.png' %}" alt="{{ food.name }}">
+
+                        {% elif food.name == "Veg Biryani" %}
+                        <img src="{% static 'images/veg_biryani.png' %}" alt="{{ food.name }}">
+
+                        {% elif food.name == "Paneer Biryani" %}
+                        <img src="{% static 'images/paneer_biryani.png' %}" alt="{{ food.name }}">
+
+                        {% elif food.name == "Hyderabadi Biryani" %}
+                        <img src="{% static 'images/hyderabadi_biryani.png' %}" alt="{{ food.name }}">
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="menu-card-content">
+
+                        <h3>{{ food.name }}</h3>
+
+                        <p>{{ food.description }}</p>
+
+                        <div class="menu-card-bottom">
+                            <span class="price">₹{{ food.price }}</span>
+                            <a href="{% url 'add_to_cart' food.id %}" class="add-btn">+ Add</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+            </div>
+
+        </div>
+        <div class="menu-category">
+
+            <div class="category-title">
+                <h2>Noodles</h2>
+                <p>Hot, spicy and tossed to perfection</p>
+            </div>
+
+            <div class="menu-items">
+
+                {% for food in food_items %}
+                {% if food.category == "Noodles" %}
+
+                <div class="menu-card">
+
+                    <div class="menu-card-image">
+
+                        {% if food.name == "Veg Hakka Noodles" %}
+                        <img src="{% static 'images/veg_noodles.png' %}" alt="{{ food.name }}">
+
+                        {% elif food.name == "Chilli Garlic Noodles" %}
+                        <img src="{% static 'images/chilli_garlic_noodles.png' %}" alt="{{ food.name }}">
+
+                        {% elif food.name == "Paneer Noodles" %}
+                        <img src="{% static 'images/paneer_noodles.png' %}" alt="{{ food.name }}">
+
+                        {% elif food.name == "Schezwan Noodles" %}
+                        <img src="{% static 'images/schezwan_noodles.png' %}" alt="{{ food.name }}">
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="menu-card-content">
+
+                        <h3>{{ food.name }}</h3>
+
+                        <p>{{ food.description }}</p>
+
+                        <div class="menu-card-bottom">
+                            <span class="price">₹{{ food.price }}</span>
+                            <a href="{% url 'add_to_cart' food.id %}" class="add-btn">+ Add</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+            </div>
+
+        </div>
+        <div class="menu-category">
+
+            <div class="category-title">
+                <h2>Desserts</h2>
+                <p>Sweet treats to end your meal perfectly</p>
+            </div>
+
+            <div class="menu-items">
+
+                {% for food in food_items %}
+                {% if food.category == "Desserts" %}
+
+                <div class="menu-card">
+
+                    <div class="menu-card-image">
+
+                        {% if food.name == "Chocolate Lava Cake" %}
+                        <img src="{% static 'images/chocolate_lava_cake.png' %}" alt="{{ food.name }}">
+
+                        {% elif food.name == "Chocolate Brownie" %}
+                        <img src="{% static 'images/brownie.png' %}" alt="{{ food.name }}">
+
+                        {% elif food.name == "Ice Cream Sundae" %}
+                        <img src="{% static 'images/ice_cream.png' %}" alt="{{ food.name }}">
+
+                        {% elif food.name == "Gulab Jamun" %}
+                        <img src="{% static 'images/gulab_jamun.png' %}" alt="{{ food.name }}">
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="menu-card-content">
+
+                        <h3>{{ food.name }}</h3>
+
+                        <p>{{ food.description }}</p>
+
+                        <div class="menu-card-bottom">
+                            <span class="price">₹{{ food.price }}</span>
+                            <a href="{% url 'add_to_cart' food.id %}" class="add-btn">+ Add</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <div class="menu-category">
+
+            <div class="category-title">
+                <h2>Drinks</h2>
+                <p>Refreshing drinks to complete your meal</p>
+            </div>
+
+            <div class="menu-items">
+
+                {% for food in food_items %}
+                {% if food.category == "Drinks" %}
+
+                <div class="menu-card">
+
+                    <div class="menu-card-image">
+
+                        {% if food.name == "Iced Coffee" %}
+                        <img src="{% static 'images/iced_coffee.png' %}" alt="{{ food.name }}">
+
+                        {% elif food.name == "Chocolate Milkshake" %}
+                        <img src="{% static 'images/milkshake.png' %}" alt="{{ food.name }}">
+
+                        {% elif food.name == "Fresh Lemonade" %}
+                        <img src="{% static 'images/lemonade.png' %}" alt="{{ food.name }}">
+
+                        {% elif food.name == "Classic Cold Drink" %}
+                        <img src="{% static 'images/cold_drink.png' %}" alt="{{ food.name }}">
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="menu-card-content">
+
+                        <h3>{{ food.name }}</h3>
+
+                        <p>{{ food.description }}</p>
+
+                        <div class="menu-card-bottom">
+                            <span class="price">₹{{ food.price }}</span>
+                            <a href="{% url 'add_to_cart' food.id %}" class="add-btn">+ Add</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </section>
+    
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <!-- BRAND -->
+
+            <div class="footer-brand">
+
+                <img src="{% static 'images/Logo.png' %}" alt="CraveBite Logo">
+
+                <p>
+                    Delicious food, fresh ingredients
+                    and unforgettable flavours.
+                </p>
+
+            </div>
+
+
+            <!-- QUICK LINKS -->
+
+            <div class="footer-column">
+
+                <h3>Quick Links</h3>
+
+                <a href="{% url 'home' %}">
+                    Home
+                </a>
+
+                <a href="{% url 'menu' %}">
+                    Menu
+                </a>
+
+                <a href="{% url 'offers' %}">
+                    Offers
+                </a>
+
+                <a href="{% url 'about' %}">
+                    About
+                </a>
+
+            </div>
+
+
+            <!-- MENU -->
+
+            <div class="footer-column">
+
+                <h3>Our Menu</h3>
+
+                <a href="{% url 'menu' %}">
+                    Pizza
+                </a>
+
+                <a href="{% url 'menu' %}">
+                    Burger
+                </a>
+
+                <a href="{% url 'menu' %}">
+                    Biryani
+                </a>
+
+                <a href="{% url 'menu' %}">
+                    Desserts
+                </a>
+
+            </div>
+
+
+            <!-- CONTACT -->
+
+            <div class="footer-column">
+
+                <h3>Contact Us</h3>
+
+                <p>📍 New Delhi, India</p>
+
+                <p>📞 +91 98765 43210</p>
+
+                <p>✉️ hello@cravebite.com</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- BOTTOM -->
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 CraveBite. All rights reserved.
+            </p>
+
+            <div class="social-links">
+
+                <a href="#">Instagram</a>
+
+                <a href="#">Facebook</a>
+
+                <a href="#">Twitter</a>
+
+            </div>
+
+        </div>
+
+    </footer>
+</body>
+
+</html>
