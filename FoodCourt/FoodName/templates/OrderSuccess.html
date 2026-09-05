@@ -1,31 +1,25 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CraveBite | Offers</title>
+    <title>Order Successful | CraveBite</title>
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
 </head>
-
 
 <body>
 
-    <!-- NAVBAR -->
+    <!-- Navbar -->
 
     <nav class="navbar">
 
         <div class="logo">
             <img src="{% static 'images/Logo.png' %}" alt="CraveBite Logo">
         </div>
-
 
         <div class="nav-links">
 
@@ -37,130 +31,124 @@
                 Menu
             </a>
 
-            <a href="{% url 'cart' %}">Cart 🛒</a>
+            <a href="{% url 'cart' %}">
+                Cart 🛒
+            </a>
+
             <a href="{% url 'my_orders' %}">
                 My Orders
             </a>
-            <a href="{% url 'offers' %}" class="active">
+            <a href="{% url 'offers' %}">
                 Offers
             </a>
 
-            <a href="{% url 'about' %}">About </a>
+            <a href="{% url 'about' %}">
+                About
+            </a>
 
         </div>
 
-
         <div class="nav-buttons">
-            <a href="{% url 'login' %}" class="login-btn">Login</a>
-            <a href="{% url 'signup' %}" class="cart-btn">Sign Up</a>
+
+            <a href="{% url 'login' %}" class="login-btn">
+                Login
+            </a>
+
+            <a href="{% url 'signup' %}" class="cart-btn">
+                Sign Up
+            </a>
 
         </div>
 
     </nav>
 
 
-    <!-- OFFERS PAGE -->
+    <!-- Order Success -->
 
-    <section class="offers-page">
+    <section class="order-success-page">
 
-        <div class="offers-heading">
+        <div class="success-box">
 
-            <p>CRAVEBITE SPECIAL</p>
+            <div class="success-icon">
+                ✓
+            </div>
 
-            <h1>
-                Delicious Deals,
-                <span>Just For You!</span>
-            </h1>
-
-            <p class="offers-description">
-                Enjoy our special offers and get more
-                of your favourite food for less.
+            <p class="success-label">
+                ORDER CONFIRMED
             </p>
 
-        </div>
+            <h1>
+                Thank You for Your Order!
+            </h1>
+
+            <p class="success-message">
+                Your order has been placed successfully.
+            </p>
 
 
-        <!-- OFFER CARDS -->
+            <div class="order-info">
 
-        <div class="offers-container">
-
-
-            <!-- OFFER 1 -->
-
-            <div class="offer-card">
-
-                <div class="offer-content">
-
-                    <span class="offer-discount">
-                        20% OFF
-                    </span>
-
-                    <h2>
-                        Pizza Party
-                    </h2>
-
-                    <p>
-                        Get 20% off on all pizzas.
-                        Perfect for sharing with
-                        friends and family.
-                    </p>
-
-                    <button>
-                        Order Now
-                    </button>
-
+                <div>
+                    <span>Order ID</span>
+                    <strong>#{{ order.id }}</strong>
                 </div>
 
+                <div>
+                    <span>Customer</span>
+                    <strong>{{ order.name }}</strong>
+                </div>
 
-                <div class="offer-image">
+                <div>
+                    <span>Payment</span>
+                    <strong>{{ order.payment_method }}</strong>
+                </div>
 
-                    <img src="{% static 'images/pizza.png' %}" alt="Pizza Offer">
-
+                <div>
+                    <span>Total Amount</span>
+                    <strong>₹{{ order.total_amount }}</strong>
                 </div>
 
             </div>
 
 
-            <!-- OFFER 2 -->
+            <h2>Order Details</h2>
 
-            <div class="offer-card">
+            <div class="success-items">
 
-                <div class="offer-content">
+                {% for item in order_items %}
 
-                    <span class="offer-discount">
-                        15% OFF
+                <div class="success-item">
+
+                    <span>
+                        {{ item.food.name }} × {{ item.quantity }}
                     </span>
 
-                    <h2>
-                        Burger Combo
-                    </h2>
-
-                    <p>
-                        Enjoy your favourite burger
-                        with a delicious side at
-                        a special price.
-                    </p>
-
-                    <button>
-                        Order Now
-                    </button>
+                    <span>
+                        ₹{{ item.price|floatformat:2 }}
+                    </span>
 
                 </div>
 
-
-                <div class="offer-image">
-
-                    <img src="{% static 'images/burger.png' %}" alt="Burger Offer">
-
-                </div>
+                {% endfor %}
 
             </div>
 
+
+            <div class="success-buttons">
+
+                <a href="{% url 'menu' %}" class="success-btn">
+                    Continue Shopping
+                </a>
+
+                <a href="{% url 'home' %}" class="success-btn secondary-btn">
+                    Back to Home
+                </a>
+
+            </div>
 
         </div>
 
     </section>
-    <!-- FOOTER -->
 
     <footer class="footer">
 

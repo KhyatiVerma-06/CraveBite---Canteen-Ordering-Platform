@@ -23,7 +23,10 @@
                 Home
             </a>
             <a href="{% url 'menu' %}">Menu</a>
-            <a href="{% url 'cart' %}" class="active" >Cart 🛒</a>
+            <a href="{% url 'cart' %}" class="active">Cart 🛒</a>
+            <a href="{% url 'my_orders' %}">
+                My Orders
+            </a>
             <a href="{% url 'offers' %}">Offers</a>
             <a href="{% url 'about' %}">About </a>
         </div>
@@ -57,76 +60,76 @@
                     <div class="cart-image">
 
                         {% if item.food.name == "Margherita Pizza" %}
-                            <img src="{% static 'images/Margherita Pizza.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/Margherita Pizza.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Double Cheese Pizza" %}
-                            <img src="{% static 'images/Double Cheese Pizza.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/Double Cheese Pizza.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Farmhouse Pizza" %}
-                            <img src="{% static 'images/Farmhouse Pizza.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/Farmhouse Pizza.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Paneer Tikka Pizza" %}
-                            <img src="{% static 'images/Paneer Tikka Pizza.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/Paneer Tikka Pizza.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Classic Burger" %}
-                            <img src="{% static 'images/ClassicBurger.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/ClassicBurger.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Classic Cheese Burger" %}
-                            <img src="{% static 'images/ClassicCheeseBurger.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/ClassicCheeseBurger.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Veg Supreme Burger" %}
-                            <img src="{% static 'images/VegSupremeBurger.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/VegSupremeBurger.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Spicy Crispy Burger" %}
-                            <img src="{% static 'images/SpicyCrispyBurger.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/SpicyCrispyBurger.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Chicken Biryani" %}
-                            <img src="{% static 'images/chicken_biryani.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/chicken_biryani.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Veg Biryani" %}
-                            <img src="{% static 'images/veg_biryani.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/veg_biryani.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Paneer Biryani" %}
-                            <img src="{% static 'images/paneer_biryani.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/paneer_biryani.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Hyderabadi Biryani" %}
-                            <img src="{% static 'images/hyderabadi_biryani.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/hyderabadi_biryani.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Veg Hakka Noodles" %}
-                            <img src="{% static 'images/veg_noodles.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/veg_noodles.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Chilli Garlic Noodles" %}
-                            <img src="{% static 'images/chilli_garlic_noodles.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/chilli_garlic_noodles.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Paneer Noodles" %}
-                            <img src="{% static 'images/paneer_noodles.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/paneer_noodles.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Schezwan Noodles" %}
-                            <img src="{% static 'images/schezwan_noodles.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/schezwan_noodles.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Chocolate Lava Cake" %}
-                            <img src="{% static 'images/chocolate_lava_cake.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/chocolate_lava_cake.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Chocolate Brownie" %}
-                            <img src="{% static 'images/brownie.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/brownie.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Ice Cream Sundae" %}
-                            <img src="{% static 'images/ice_cream.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/ice_cream.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Gulab Jamun" %}
-                            <img src="{% static 'images/gulab_jamun.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/gulab_jamun.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Iced Coffee" %}
-                            <img src="{% static 'images/iced_coffee.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/iced_coffee.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Chocolate Milkshake" %}
-                            <img src="{% static 'images/milkshake.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/milkshake.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Fresh Lemonade" %}
-                            <img src="{% static 'images/lemonade.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/lemonade.png' %}" alt="{{ item.food.name }}">
 
                         {% elif item.food.name == "Classic Cold Drink" %}
-                            <img src="{% static 'images/cold_drink.png' %}" alt="{{ item.food.name }}">
+                        <img src="{% static 'images/cold_drink.png' %}" alt="{{ item.food.name }}">
                         {% endif %}
 
                     </div>
@@ -160,8 +163,7 @@
                             </div>
 
 
-                            <a href="{% url 'remove_from_cart' item.food.id %}"
-                               class="remove-btn">
+                            <a href="{% url 'remove_from_cart' item.food.id %}" class="remove-btn">
                                 Remove
                             </a>
 
@@ -207,9 +209,9 @@
                     <strong>₹{{ total }}</strong>
                 </div>
 
-                <button class="checkout-btn">
+                <a href="{% url 'checkout' %}" class="checkout-btn">
                     Proceed to Checkout
-                </button>
+                </a>
 
                 <a href="{% url 'menu' %}" class="continue-shopping">
                     ← Continue Shopping
@@ -357,4 +359,5 @@
     </footer>
 
 </body>
+
 </html>

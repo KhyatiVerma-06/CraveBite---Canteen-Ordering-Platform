@@ -18,6 +18,9 @@
             <a href="#" class="active">Home</a>
             <a href="{% url 'menu' %}">Menu</a>
             <a href="{% url 'cart' %}">Cart 🛒</a>
+            <a href="{% url 'my_orders' %}">
+                My Orders
+            </a>
             <a href="{% url 'offers' %}">Offers</a>
             <a href="{% url 'about' %}">About </a>
         </div>
@@ -41,16 +44,157 @@
                 Discover the best food, explore amazing restaurants
                 and get your favourite meals delivered to your doorstep.
             </p>
-            <div class="hero-search">
-                <span>🔍</span>
-                <input type="text" placeholder="Search for pizza, burger, biryani...">
-                <button>
+            <form method="GET" action="{% url 'home' %}" class="search-box">
+
+                <input type="text" name="q" value="{{ search_query }}" placeholder="Search your favourite food...">
+
+                <button type="submit">
                     Search
                 </button>
-            </div>
+
+            </form>
         </div>
     </section>
 
+    <!-- SEARCH RESULTS -->
+
+    {% if search_query %}
+
+    <section class="search-results-section">
+
+        <div class="section-heading">
+            <p>SEARCH RESULTS</p>
+            <h2>Results for "{{ search_query }}"</h2>
+        </div>
+
+        {% if search_results %}
+
+        <div class="search-results-grid">
+
+            {% for food in search_results %}
+
+            <div class="search-food-card">
+
+                <div class="search-food-image">
+
+                    {% if food.name == "Margherita Pizza" %}
+                    <img src="{% static 'images/Margherita Pizza.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Double Cheese Pizza" %}
+                    <img src="{% static 'images/Double Cheese Pizza.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Farmhouse Pizza" %}
+                    <img src="{% static 'images/Farmhouse Pizza.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Paneer Tikka Pizza" %}
+                    <img src="{% static 'images/Paneer Tikka Pizza.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Classic Burger" %}
+                    <img src="{% static 'images/ClassicBurger.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Classic Cheese Burger" %}
+                    <img src="{% static 'images/ClassicCheeseBurger.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Veg Supreme Burger" %}
+                    <img src="{% static 'images/VegSupremeBurger.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Spicy Crispy Burger" %}
+                    <img src="{% static 'images/SpicyCrispyBurger.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Chicken Biryani" %}
+                    <img src="{% static 'images/chicken_biryani.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Veg Biryani" %}
+                    <img src="{% static 'images/veg_biryani.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Paneer Biryani" %}
+                    <img src="{% static 'images/paneer_biryani.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Hyderabadi Biryani" %}
+                    <img src="{% static 'images/hyderabadi_biryani.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Veg Hakka Noodles" %}
+                    <img src="{% static 'images/veg_noodles.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Chilli Garlic Noodles" %}
+                    <img src="{% static 'images/chilli_garlic_noodles.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Paneer Noodles" %}
+                    <img src="{% static 'images/paneer_noodles.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Schezwan Noodles" %}
+                    <img src="{% static 'images/schezwan_noodles.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Chocolate Lava Cake" %}
+                    <img src="{% static 'images/chocolate_lava_cake.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Chocolate Brownie" %}
+                    <img src="{% static 'images/brownie.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Ice Cream Sundae" %}
+                    <img src="{% static 'images/ice_cream.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Gulab Jamun" %}
+                    <img src="{% static 'images/gulab_jamun.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Iced Coffee" %}
+                    <img src="{% static 'images/iced_coffee.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Chocolate Milkshake" %}
+                    <img src="{% static 'images/milkshake.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Fresh Lemonade" %}
+                    <img src="{% static 'images/lemonade.png' %}" alt="{{ food.name }}">
+
+                    {% elif food.name == "Classic Cold Drink" %}
+                    <img src="{% static 'images/cold_drink.png' %}" alt="{{ food.name }}">
+
+                    {% endif %}
+
+                </div>
+
+                <div class="search-food-content">
+
+                    <h3>{{ food.name }}</h3>
+
+                    <p>{{ food.description }}</p>
+
+                    <div class="search-food-bottom">
+
+                        <strong>₹{{ food.price }}</strong>
+
+                        <a href="{% url 'add_to_cart' food.id %}">
+                            + Add
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="no-search-results">
+
+            <h3>No Food Found</h3>
+
+            <p>
+                Sorry, we couldn't find anything matching
+                "{{ search_query }}".
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+    {% endif %}
     <!-- FOOD CATEGORIES -->
     <section class="categories">
         <div class="section-heading">

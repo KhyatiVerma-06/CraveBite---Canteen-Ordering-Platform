@@ -40,6 +40,9 @@
             </a>
 
             <a href="{% url 'cart' %}">Cart 🛒</a>
+            <a href="{% url 'my_orders' %}">
+                My Orders
+            </a>
             <a href="{% url 'offers' %}">
                 Offers
             </a>
@@ -54,7 +57,7 @@
         <div class="nav-buttons">
 
             <a href="{% url 'login' %}" class="login-btn">Login</a>
-            <a href="{% url 'signup' %}" class="cart-btn">Sign Up</a> 
+            <a href="{% url 'signup' %}" class="cart-btn">Sign Up</a>
 
         </div>
 
@@ -217,7 +220,8 @@
                 <a href="{% url 'menu' %}">
                     Menu
                 </a>
-
+                
+                
                 <a href="{% url 'offers' %}">
                     Offers
                 </a>

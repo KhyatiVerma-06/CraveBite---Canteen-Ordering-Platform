@@ -1,0 +1,279 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | CraveBite</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <img src="{% static 'images/Logo.png' %}" alt="CraveBite Logo">
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'menu' %}">
+                Menu
+            </a>
+
+            <a href="{% url 'cart' %}">
+                Cart 🛒
+            </a>
+            <a href="{% url 'my_orders' %}">
+                My Orders
+            </a>
+
+            <a href="{% url 'offers' %}">
+                Offers
+            </a>
+
+            <a href="{% url 'about' %}">
+                About
+            </a>
+
+        </div>
+
+        <div class="nav-buttons">
+
+            <a href="{% url 'login' %}" class="login-btn">
+                Login
+            </a>
+
+            <a href="{% url 'signup' %}" class="cart-btn">
+                Sign Up
+            </a>
+
+        </div>
+
+    </nav>
+    <section class="checkout-page">
+
+        <div class="section-heading">
+            <p>CHECKOUT</p>
+            <h1>Complete Your Order</h1>
+        </div>
+
+
+        <form method="POST" action="{% url 'place_order' %}">
+
+            {% csrf_token %}
+
+            <div class="checkout-container">
+
+                <!-- Delivery Details -->
+
+                <div class="checkout-form">
+
+                    <h2>Delivery Details</h2>
+
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" name="name" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" name="phone" placeholder="Enter your phone number" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" name="email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Delivery Address</label>
+                        <textarea name="address" placeholder="Enter complete delivery address" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Payment Method</label>
+
+                        <select name="payment_method" required>
+                            <option value="Cash on Delivery">
+                                Cash on Delivery
+                            </option>
+
+                            <option value="UPI">
+                                UPI
+                            </option>
+
+                            <option value="Credit / Debit Card">
+                                Credit / Debit Card
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <!-- Order Summary -->
+
+                <div class="checkout-summary">
+
+                    <h2>Order Summary</h2>
+
+                    {% for item in cart_items %}
+
+                    <div class="checkout-item">
+
+                        <span>
+                            {{ item.food.name }} × {{ item.quantity }}
+                        </span>
+
+                        <span>
+                            ₹{{ item.item_total }}
+                        </span>
+
+                    </div>
+
+                    {% endfor %}
+
+                    <hr>
+
+                    <div class="checkout-total">
+
+                        <span>Total Amount</span>
+
+                        <strong>
+                            ₹{{ total }}
+                        </strong>
+
+                    </div>
+
+
+                    <button type="submit" class="checkout-btn">
+                        Place Order
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </section>
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <!-- BRAND -->
+
+            <div class="footer-brand">
+
+                <img src="{% static 'images/Logo.png' %}" alt="CraveBite Logo">
+
+                <p>
+                    Delicious food, fresh ingredients
+                    and unforgettable flavours.
+                </p>
+
+            </div>
+
+
+            <!-- QUICK LINKS -->
+
+            <div class="footer-column">
+
+                <h3>Quick Links</h3>
+
+                <a href="{% url 'home' %}">
+                    Home
+                </a>
+
+                <a href="{% url 'menu' %}">
+                    Menu
+                </a>
+
+                <a href="{% url 'offers' %}">
+                    Offers
+                </a>
+
+                <a href="{% url 'about' %}">
+                    About
+                </a>
+
+            </div>
+
+
+            <!-- MENU -->
+
+            <div class="footer-column">
+
+                <h3>Our Menu</h3>
+
+                <a href="{% url 'menu' %}">
+                    Pizza
+                </a>
+
+                <a href="{% url 'menu' %}">
+                    Burger
+                </a>
+
+                <a href="{% url 'menu' %}">
+                    Biryani
+                </a>
+
+                <a href="{% url 'menu' %}">
+                    Desserts
+                </a>
+
+            </div>
+
+
+            <!-- CONTACT -->
+
+            <div class="footer-column">
+
+                <h3>Contact Us</h3>
+
+                <p>📍 New Delhi, India</p>
+
+                <p>📞 +91 98765 43210</p>
+
+                <p>✉️ hello@cravebite.com</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- BOTTOM -->
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 CraveBite. All rights reserved.
+            </p>
+
+            <div class="social-links">
+
+                <a href="#">Instagram</a>
+
+                <a href="#">Facebook</a>
+
+                <a href="#">Twitter</a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>

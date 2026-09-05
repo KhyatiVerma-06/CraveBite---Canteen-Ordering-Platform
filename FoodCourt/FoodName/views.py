@@ -2,11 +2,26 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 
-from .models import FoodItem
+from .models import FoodItem, Order, OrderItem
 
 def home(request):
-    template = loader.get_template('Home.html')
-    return HttpResponse(template.render())
+    search_query = request.GET.get('q', '').strip()
+
+    if search_query:
+        search_results = FoodItem.objects.filter(
+            name__icontains=search_query
+        ) | FoodItem.objects.filter(
+            category__icontains=search_query
+        ) | FoodItem.objects.filter(
+            description__icontains=search_query
+        )
+    else:
+        search_results = FoodItem.objects.none()
+
+    return render(request, 'Home.html', {
+        'search_query': search_query,
+        'search_results': search_results
+    })
 
 def menu(request):
     food_items = FoodItem.objects.all()
@@ -127,3 +142,65 @@ def login(request):
 def signup(request):
     template = loader.get_template('Signup.html')
     return HttpResponse(template.render())
+
+def place_order(request):
+    if request.method == 'POST':
+
+        cart_data = request.session.get('cart', {})
+
+        if not cart_data:
+            return redirect('cart')
+
+        name = request.POST.get('name')
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        address = request.POST.get('address')
+        payment_method = request.POST.get('payment_method')
+
+        total = 0
+
+        for food_id, quantity in cart_data.items():
+            food = FoodItem.objects.get(id=food_id)
+            total += food.price * quantity
+
+        order = Order.objects.create(
+            name=name,
+            phone=phone,
+            email=email,
+            address=address,
+            payment_method=payment_method,
+            total_amount=total
+        )
+
+        for food_id, quantity in cart_data.items():
+            food = FoodItem.objects.get(id=food_id)
+
+            OrderItem.objects.create(
+                order=order,
+                food=food,
+                quantity=quantity,
+                price=food.price
+            )
+
+        request.session['cart'] = {}
+
+        return redirect('order_success', order_id=order.id)
+
+    return redirect('checkout')
+
+def order_success(request, order_id):
+    order = Order.objects.get(id=order_id)
+
+    order_items = OrderItem.objects.filter(order=order)
+
+    return render(request, 'OrderSuccess.html', {
+        'order': order,
+        'order_items': order_items
+    })
+
+def my_orders(request):
+    orders = Order.objects.all().order_by('-created_at')
+
+    return render(request, 'MyOrders.html', {
+        'orders': orders
+    })
