@@ -48,13 +48,101 @@
 
         <div class="nav-buttons">
 
-            <a href="{% url 'login' %}" class="login-btn">
-                Login
-            </a>
+            {% if user.is_authenticated %}
 
-            <a href="{% url 'signup' %}" class="cart-btn">
-                Sign Up
-            </a>
+            <div class="user-profile">
+
+                <div class="user-profile-button" onclick="toggleProfileMenu()">
+
+                    <div class="user-avatar">
+                        {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                    </div>
+
+                    <span class="user-name">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </span>
+
+
+                </div>
+
+                <div class="profile-dropdown" id="profileDropdown">
+
+                    <div class="profile-header">
+
+                        <div class="profile-avatar">
+                            {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                        </div>
+
+                        <div class="profile-info">
+                            <h3>
+                                {{ user.first_name }} {{ user.last_name }}
+                            </h3>
+
+                            <p>{{ user.email }}</p>
+                        </div>
+                    </div>
+
+                    <div class="profile-menu">
+
+                        <a href="{% url 'profile' %}">
+                            <span>👤</span>
+                            My Profile
+                        </a>
+
+                        <a href="{% url 'my_orders' %}">
+                            <span>📋</span>
+                            My Orders
+                        </a>
+                        <a href="{% url 'reviews' %}"><span>⭐</span>Reviews</a>
+
+                        <a href="{% url 'notifications' %}">
+                            <span>🔔</span>
+                            Notifications
+
+                            {% if unread_notification_count > 0 %}
+                            <strong class="notification-badge">
+                                {{ unread_notification_count }}
+                            </strong>
+                            {% endif %}
+                        </a>
+                        {% if user.is_authenticated %}
+                        {% if user.deliverypartner %}
+                        <a href="{% url 'delivery_dashboard' %}">
+                            <span>🚚</span>
+                            Delivery Dashboard
+                        </a>
+                        {% endif %}
+                        {% endif %}
+                        {% if user.is_staff and not user.deliverypartner %}
+                        <a href="{% url 'admin_dashboard' %}">
+                            <span>📊</span>
+                            Admin Dashboard
+                        </a>
+                        {% endif %}
+                        <a href="{% url 'settings' %}">
+                            <span>⚙️</span>
+                            Settings
+                        </a>
+
+                    </div>
+
+                    <div class="profile-logout">
+                        <a href="{% url 'logout' %}">
+                            <span>↪</span>
+                            Logout
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <a href="{% url 'login' %}" class="login-btn">Login</a>
+            <a href="{% url 'signup' %}" class="cart-btn">Sign Up</a>
+
+            {% endif %}
 
         </div>
 
@@ -67,7 +155,7 @@
         </div>
 
 
-        <form method="POST" action="{% url 'place_order' %}">
+        <form method="POST" action="{% url 'save_checkout_details' %}">
 
             {% csrf_token %}
 
@@ -86,7 +174,8 @@
 
                     <div class="form-group">
                         <label>Phone Number</label>
-                        <input type="tel" name="phone" placeholder="Enter your phone number" required>
+                        <input type="tel" name="phone" placeholder="Enter 10-digit phone number" pattern="[6-9][0-9]{9}"
+                            maxlength="10" minlength="10" required>
                     </div>
 
                     <div class="form-group">
@@ -102,7 +191,8 @@
                     <div class="form-group">
                         <label>Payment Method</label>
 
-                        <select name="payment_method" required>
+                        <select name="payment_method" id="payment_method" required onchange="showPaymentDetails()">
+
                             <option value="Cash on Delivery">
                                 Cash on Delivery
                             </option>
@@ -114,7 +204,98 @@
                             <option value="Credit / Debit Card">
                                 Credit / Debit Card
                             </option>
+
                         </select>
+                    </div>
+
+
+                    <!-- UPI PAYMENT DETAILS -->
+
+
+
+                    <div id="upi-details" class="payment-details">
+
+                        <h3>Pay using UPI</h3>
+
+                        <div class="upi-box">
+
+                            <!-- QR CODE -->
+                            <div class="qr-placeholder">
+                                <img src="{% static 'images/upi-qr.png' %}" alt="CraveBite UPI QR Code">
+                            </div>
+
+                            <p>Scan this QR using any UPI app</p>
+
+                            <strong>cravebite@upi</strong>
+
+                            <div class="upi-divider">
+                                <span></span>
+                                <p>or</p>
+                                <span></span>
+                            </div>
+
+                            <!-- UPI APP BUTTONS -->
+
+                            <p class="upi-app-title">
+                                Pay using UPI App
+                            </p>
+
+                            <div class="upi-apps">
+
+                                <a href="{% url 'demo_payment' %}?app=Google%20Pay" class="upi-app-btn">
+                                    <span class="upi-app-icon gpay-icon">G</span>
+                                    <span>Google Pay</span>
+                                </a>
+
+                                <a href="{% url 'demo_payment' %}?app=PhonePe" class="upi-app-btn">
+                                    <span class="upi-app-icon phonepe-icon">पे</span>
+                                    <span>PhonePe</span>
+                                </a>
+
+                                <a href="{% url 'demo_payment' %}?app=Paytm" class="upi-app-btn">
+                                    <span class="upi-app-icon paytm-icon">P</span>
+                                    <span>Paytm</span>
+                                </a>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- CARD PAYMENT DETAILS -->
+
+                    <div id="card-details" class="payment-details">
+
+                        <h3>Card Details</h3>
+
+                        <div class="form-group">
+                            <label>Card Holder Name</label>
+                            <input type="text" name="card_holder_name" placeholder="Enter card holder name">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Card Number</label>
+                            <input type="text" name="card_number" placeholder="1234 5678 9012 3456" maxlength="19"
+                                pattern="[0-9 ]{13,19}">
+                        </div>
+
+                        <div class="card-row">
+
+                            <div class="form-group">
+                                <label>Expiry Date</label>
+                                <input type="text" name="expiry_date" placeholder="MM/YY" maxlength="5"
+                                    pattern="(0[1-9]|1[0-2])\/[0-9]{2}">
+                            </div>
+
+                            <div class="form-group">
+                                <label>CVV</label>
+                                <input type="password" name="cvv" placeholder="CVV" maxlength="3" minlength="3"
+                                    pattern="[0-9]{3}">
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
@@ -143,6 +324,20 @@
                     {% endfor %}
 
                     <hr>
+
+                    <hr>
+
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>₹{{ subtotal }}</span>
+                    </div>
+
+                    {% if discount > 0 %}
+                    <div class="summary-row coupon-applied">
+                        <span>Coupon Discount</span>
+                        <span>- ₹{{ discount }}</span>
+                    </div>
+                    {% endif %}
 
                     <div class="checkout-total">
 
@@ -274,6 +469,84 @@
 
     </footer>
 
+    <script>
+
+        function toggleProfileMenu() {
+
+            const menu = document.getElementById("profileDropdown");
+
+            if (!menu) return;
+
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
+
+        }
+
+
+        function showPaymentDetails() {
+
+            const paymentMethod = document.getElementById("payment_method").value;
+
+            const upiDetails = document.getElementById("upi-details");
+            const cardDetails = document.getElementById("card-details");
+
+            const cardHolder = document.querySelector('[name="card_holder_name"]');
+            const cardNumber = document.querySelector('[name="card_number"]');
+            const expiryDate = document.querySelector('[name="expiry_date"]');
+            const cvv = document.querySelector('[name="cvv"]');
+
+
+            // Hide both sections
+            upiDetails.style.display = "none";
+            cardDetails.style.display = "none";
+
+
+            // Remove required from card fields
+            cardHolder.required = false;
+            cardNumber.required = false;
+            expiryDate.required = false;
+            cvv.required = false;
+
+
+            // UPI
+            if (paymentMethod === "UPI") {
+
+                upiDetails.style.display = "block";
+
+            }
+
+
+            // Credit / Debit Card
+            if (paymentMethod === "Credit / Debit Card") {
+
+                cardDetails.style.display = "block";
+
+                cardHolder.required = true;
+                cardNumber.required = true;
+                expiryDate.required = true;
+                cvv.required = true;
+
+            }
+
+        }
+
+
+
+        document.addEventListener("click", function (event) {
+
+            const profile = document.querySelector(".user-profile");
+            const menu = document.getElementById("profileDropdown");
+
+            if (profile && menu && !profile.contains(event.target)) {
+                menu.style.display = "none";
+            }
+
+        });
+
+    </script>
 </body>
 
 </html>

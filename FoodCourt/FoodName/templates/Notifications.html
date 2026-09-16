@@ -1,0 +1,69 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - CraveBite</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <section class="notifications-page">
+
+        <div class="notifications-container">
+
+            <div class="notifications-header">
+                <h1>🔔 Notifications</h1>
+                <p>Stay updated about your orders</p>
+            </div>
+
+            {% if notifications %}
+
+                {% for notification in notifications %}
+
+                <div class="notification-card {% if not notification.is_read %}unread{% endif %}">
+
+                    <div class="notification-icon">
+                        🔔
+                    </div>
+
+                    <div class="notification-content">
+
+                        <h3>
+                            Order #{{ notification.order.id }}
+                        </h3>
+
+                        <p>
+                            {{ notification.message }}
+                        </p>
+
+                        <span>
+                            {{ notification.created_at|date:"d M Y, h:i A" }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="no-notifications">
+                    <div>🔔</div>
+                    <h3>No notifications yet</h3>
+                    <p>Your order updates will appear here.</p>
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+</body>
+</html>

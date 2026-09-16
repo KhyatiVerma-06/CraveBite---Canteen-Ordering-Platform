@@ -1,0 +1,562 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | CraveBite</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <img src="{% static 'images/Logo.png' %}" alt="CraveBite Logo">
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'menu' %}">Menu</a>
+            <a href="{% url 'cart' %}">Cart 🛒</a>
+            <a href="{% url 'my_orders' %}">My Orders</a>
+            <a href="{% url 'offers' %}">Offers</a>
+            <a href="{% url 'about' %}">About</a>
+
+        </div>
+
+        <div class="nav-buttons">
+
+            <div class="user-profile">
+
+                <div class="user-profile-button" onclick="toggleProfileMenu()">
+
+                    <div class="user-avatar">
+                        {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                    </div>
+
+                    <span class="user-name">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </span>
+
+                </div>
+
+                <!-- PROFILE DROPDOWN -->
+
+                <div class="profile-dropdown" id="profileDropdown">
+
+                    <div class="profile-header">
+
+                        <div class="profile-avatar">
+                            {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                        </div>
+
+                        <div class="profile-info">
+
+                            <h3>
+                                {{ user.first_name }} {{ user.last_name }}
+                            </h3>
+
+                            <p>{{ user.email }}</p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="profile-menu">
+
+                        <a href="{% url 'profile' %}">
+                            <span>👤</span>
+                            My Profile
+                        </a>
+
+                        <a href="{% url 'my_orders' %}">
+                            <span>📋</span>
+                            My Orders
+                        </a>
+
+                        <a href="{% url 'reviews' %}">
+                            <span>⭐</span>
+                            Reviews
+                        </a>
+                        
+
+                        <a href="{% url 'admin_dashboard' %}">
+                            <span>📊</span>
+                            Admin Dashboard
+                        </a>
+
+
+                        <a href="{% url 'settings' %}">
+                            <span>⚙️</span>
+                            Settings
+                        </a>
+
+                    </div>
+
+                    <div class="profile-logout">
+
+                        <a href="{% url 'logout' %}">
+                            <span>↪</span>
+                            Logout
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ADMIN DASHBOARD -->
+
+    <section class="admin-dashboard">
+
+        <div class="admin-header">
+
+            <p>ADMIN PANEL</p>
+
+            <h1>
+                Welcome, <span>{{ user.first_name }}</span> 👋
+            </h1>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <div class="admin-stats">
+
+            <div class="admin-stat-card">
+
+                <div class="admin-stat-icon">
+                    📦
+                </div>
+
+                <h3>Total Orders</h3>
+
+                <strong>
+                    {{ total_orders }}
+                </strong>
+
+            </div>
+
+
+            <div class="admin-stat-card">
+
+                <div class="admin-stat-icon">
+                    💰
+                </div>
+
+                <h3>Total Sales</h3>
+
+                <strong>
+                    ₹{{ total_sales }}
+                </strong>
+
+            </div>
+
+
+            <div class="admin-stat-card">
+
+                <div class="admin-stat-icon">
+                    👥
+                </div>
+
+                <h3>Total Customers</h3>
+
+                <strong>
+                    {{ total_customers }}
+                </strong>
+
+            </div>
+
+
+            <div class="admin-stat-card">
+
+                <div class="admin-stat-icon">
+                    🍔
+                </div>
+
+                <h3>Food Items</h3>
+
+                <strong>
+                    {{ total_food_items }}
+                </strong>
+
+            </div>
+
+
+            <div class="admin-stat-card">
+
+                <div class="admin-stat-icon">
+                    🚚
+                </div>
+
+                <h3>Delivery Partners</h3>
+
+                <strong>
+                    {{ total_delivery_partners }}
+                </strong>
+
+            </div>
+
+            <div class="admin-stat-card">
+
+                <div class="admin-stat-icon">
+                    ✅
+                </div>
+
+                <h3>Delivered Orders</h3>
+
+                <strong>
+                    {{ delivered_orders }}
+                </strong>
+
+            </div>
+
+
+            <div class="admin-stat-card">
+
+                <div class="admin-stat-icon">
+                    ⏳
+                </div>
+
+                <h3>Pending Orders</h3>
+
+                <strong>
+                    {{ pending_orders }}
+                </strong>
+
+            </div>
+
+
+            <div class="admin-stat-card">
+
+                <div class="admin-stat-icon">
+                    ❌
+                </div>
+
+                <h3>Cancelled Orders</h3>
+
+                <strong>
+                    {{ cancelled_orders }}
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div class="admin-analytics-section">
+
+            <div class="admin-analytics-header">
+                <h2>Sales Analytics</h2>
+                <p>Overview of your restaurant sales</p>
+            </div>
+
+            <div class="admin-sales-card">
+
+                <div class="sales-summary">
+                    <span>Total Delivered Sales</span>
+                    <strong>₹{{ total_sales }}</strong>
+                </div>
+
+                <div class="sales-chart">
+
+                    {% for item in daily_sales %}
+
+                    <div class="sales-chart-item">
+
+                        <div class="sales-chart-info">
+                            <span class="sales-chart-date">
+                                {{ item.day|date:"d M" }}
+                            </span>
+
+                            <span class="sales-chart-amount">
+                                ₹{{ item.sales }}
+                            </span>
+                        </div>
+
+                        <div class="sales-chart-track">
+                            <div class="sales-chart-fill"></div>
+                        </div>
+
+                    </div>
+
+                    {% empty %}
+
+                    <div class="no-sales-data">
+                        <p>No delivered sales data available yet.</p>
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                <div class="sales-info">
+                    <span>Delivered Orders: {{ delivered_orders }}</span>
+                    <span>Total Orders: {{ total_orders }}</span>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- RECENT ORDERS -->
+
+        <div class="admin-orders-section">
+
+            <div class="admin-orders-header">
+
+                <h2>📋 Recent Orders</h2>
+
+            </div>
+
+
+            {% if recent_orders %}
+
+            <table class="admin-orders-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Order</th>
+                        <th>Customer</th>
+                        <th>Phone</th>
+                        <th>Amount</th>
+                        <th>Payment</th>
+                        <th>Status</th>
+                        <th>Delivery Partner</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for order in recent_orders %}
+
+                    <tr>
+
+                        <td>
+                            #{{ order.id }}
+                        </td>
+
+                        <td>
+                            {{ order.name }}
+                        </td>
+
+                        <td>
+                            {{ order.phone }}
+                        </td>
+
+                        <td>
+                            ₹{{ order.total_amount }}
+                        </td>
+
+                        <td>
+                            {{ order.payment_method }}
+                        </td>
+
+                        <td>
+
+                            <span class="admin-status">
+                                {{ order.status }}
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <form method="POST" action="{% url 'assign_delivery_partner' order.id %}">
+
+                                {% csrf_token %}
+
+                                <select name="delivery_partner">
+
+                                    <option value="">
+                                        No Partner
+                                    </option>
+
+                                    {% for partner in delivery_partners %}
+
+                                    {% for partner in delivery_partners %}
+
+                                    <option value="{{ partner.id }}">
+                                        {{ partner.user.first_name }}
+                                        {{ partner.user.last_name }}
+                                    </option>
+
+                                    {% endfor %}
+
+                                    {{ partner.user.first_name }}
+                                    {{ partner.user.last_name }}
+
+                                    </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                                <button type="submit">
+                                    Assign
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="no-admin-orders">
+
+                <h3>No Orders Yet</h3>
+
+                <p>
+                    Orders will appear here once customers place them.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-brand">
+
+                <img src="{% static 'images/Logo.png' %}" alt="CraveBite Logo">
+
+                <p>
+                    Delicious food, fresh ingredients
+                    and unforgettable flavours.
+                </p>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>Quick Links</h3>
+
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'menu' %}">Menu</a>
+                <a href="{% url 'offers' %}">Offers</a>
+                <a href="{% url 'about' %}">About</a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>Our Menu</h3>
+
+                <a href="{% url 'menu' %}">Pizza</a>
+                <a href="{% url 'menu' %}">Burger</a>
+                <a href="{% url 'menu' %}">Biryani</a>
+                <a href="{% url 'menu' %}">Desserts</a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>Contact Us</h3>
+
+                <p>📍 New Delhi, India</p>
+                <p>📞 +91 98765 43210</p>
+                <p>✉️ hello@cravebite.com</p>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 CraveBite. All rights reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <script>
+
+        function toggleProfileMenu() {
+
+            const menu =
+                document.getElementById("profileDropdown");
+
+            if (!menu) return;
+
+            if (menu.style.display === "block") {
+
+                menu.style.display = "none";
+
+            } else {
+
+                menu.style.display = "block";
+
+            }
+
+        }
+
+
+        document.addEventListener("click", function (event) {
+
+            const profile =
+                document.querySelector(".user-profile");
+
+            const menu =
+                document.getElementById("profileDropdown");
+
+            if (
+                profile &&
+                menu &&
+                !profile.contains(event.target)
+            ) {
+
+                menu.style.display = "none";
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

@@ -7,13 +7,11 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>CraveBite | Sign Up</title>
 
-    <link rel="stylesheet"
-          href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 </head>
 
@@ -24,8 +22,7 @@
     <nav class="navbar">
 
         <div class="logo">
-            <img src="{% static 'images/Logo.png' %}"
-                 alt="CraveBite Logo">
+            <img src="{% static 'images/Logo.png' %}" alt="CraveBite Logo">
         </div>
 
         <div class="nav-links">
@@ -50,13 +47,11 @@
 
         <div class="nav-buttons">
 
-            <a href="{% url 'login' %}"
-               class="login-btn">
+            <a href="{% url 'login' %}" class="login-btn">
                 Login
             </a>
 
-            <a href="{% url 'signup' %}"
-               class="cart-btn">
+            <a href="{% url 'signup' %}" class="cart-btn">
                 Sign Up
             </a>
 
@@ -75,20 +70,23 @@
 
             <p>
                 Join CraveBite and satisfy your cravings.
+
             </p>
 
+            {% if messages %}
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}
+            {% endif %}
 
-            <form>
+            <form method="POST" action="{% url 'signup' %}">
+                {% csrf_token %}
 
                 <div class="form-group">
 
                     <label>Full Name</label>
 
-                    <input
-                        type="text"
-                        placeholder="Enter your full name"
-                        required
-                    >
+                    <input type="text" placeholder="Enter your full name" name="name" required>
 
                 </div>
 
@@ -97,11 +95,7 @@
 
                     <label>Email Address</label>
 
-                    <input
-                        type="email"
-                        placeholder="Enter your email"
-                        required
-                    >
+                    <input type="email" placeholder="Enter your email" name="email" required>
 
                 </div>
 
@@ -110,11 +104,7 @@
 
                     <label>Password</label>
 
-                    <input
-                        type="password"
-                        placeholder="Create a password"
-                        required
-                    >
+                    <input type="password" placeholder="Create a password" name="password" required>
 
                 </div>
 
@@ -123,17 +113,12 @@
 
                     <label>Confirm Password</label>
 
-                    <input
-                        type="password"
-                        placeholder="Confirm your password"
-                        required
-                    >
+                    <input type="password" placeholder="Confirm your password" name="confirm_password" required>
 
                 </div>
 
 
-                <button type="submit"
-                        class="signup-submit">
+                <button type="submit" class="signup-submit">
                     Create Account
                 </button>
 

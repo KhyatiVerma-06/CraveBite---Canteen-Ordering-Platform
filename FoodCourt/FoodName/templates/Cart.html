@@ -31,8 +31,107 @@
             <a href="{% url 'about' %}">About </a>
         </div>
         <div class="nav-buttons">
+
+            {% if user.is_authenticated %}
+
+            <div class="user-profile">
+
+                <div class="user-profile-button" onclick="toggleProfileMenu()">
+
+                    <div class="user-avatar">
+                        {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                    </div>
+
+                    <span class="user-name">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </span>
+
+
+
+                </div>
+
+                <div class="profile-dropdown" id="profileDropdown">
+
+                    <div class="profile-header">
+
+                        <div class="profile-avatar">
+                            {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                        </div>
+
+                        <div class="profile-info">
+                            <h3>
+                                {{ user.first_name }} {{ user.last_name }}
+                            </h3>
+
+                            <p>{{ user.email }}</p>
+                        </div>
+
+                    </div>
+
+                    <div class="profile-menu">
+
+                        <a href="{% url 'profile' %}">
+                            <span>👤</span>
+                            My Profile
+                        </a>
+
+                        <a href="{% url 'my_orders' %}">
+                            <span>📋</span>
+                            My Orders
+                        </a>
+                        <a href="{% url 'reviews' %}"><span>⭐</span>Reviews</a>
+
+                        <a href="{% url 'notifications' %}">
+                            <span>🔔</span>
+                            Notifications
+
+                            {% if unread_notification_count > 0 %}
+                            <strong class="notification-badge">
+                                {{ unread_notification_count }}
+                            </strong>
+                            {% endif %}
+                        </a>
+                        {% if user.is_authenticated %}
+                        {% if user.deliverypartner %}
+                        <a href="{% url 'delivery_dashboard' %}">
+                            <span>🚚</span>
+                            Delivery Dashboard
+                        </a>
+                        {% endif %}
+                        {% endif %}
+                        {% if user.is_staff and not user.deliverypartner %}
+                        <a href="{% url 'admin_dashboard' %}">
+                            <span>📊</span>
+                            Admin Dashboard
+                        </a>
+                        {% endif %}
+                        <a href="{% url 'settings' %}">
+                            <span>⚙️</span>
+                            Settings
+                        </a>
+
+                    </div>
+
+                    <div class="profile-logout">
+
+                        <a href="{% url 'logout' %}">
+                            <span>↪</span>
+                            Logout
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% else %}
+
             <a href="{% url 'login' %}" class="login-btn">Login</a>
             <a href="{% url 'signup' %}" class="cart-btn">Sign Up</a>
+
+            {% endif %}
+
         </div>
     </nav>
 
@@ -194,7 +293,7 @@
 
                 <div class="summary-row">
                     <span>Subtotal</span>
-                    <span>₹{{ total }}</span>
+                    <span>₹{{ subtotal }}</span>
                 </div>
 
                 <div class="summary-row">
@@ -202,11 +301,34 @@
                     <span>FREE</span>
                 </div>
 
+                <!-- Coupon Section -->
+                <div class="coupon-section">
+
+                    <h3>🎟️ Have a Coupon?</h3>
+
+                    <form method="POST" action="{% url 'apply_coupon' %}" class="coupon-form">
+                        {% csrf_token %}
+
+                        <input type="text" name="coupon_code" placeholder="Enter coupon code" required>
+
+                        <button type="submit">Apply</button>
+                    </form>
+
+                </div>
+                {% if coupon_code %}
+                <div class="summary-row coupon-applied">
+                    <span>
+                        Coupon ({{ coupon_code }})
+                    </span>
+                    <span>- ₹{{ discount }}</span>
+                </div>
+                {% endif %}
+
                 <hr>
 
                 <div class="summary-total">
                     <span>Total</span>
-                    <strong>₹{{ total }}</strong>
+                    <strong>₹{{ final_total }}</strong>
                 </div>
 
                 <a href="{% url 'checkout' %}" class="checkout-btn">
@@ -357,6 +479,34 @@
         </div>
 
     </footer>
+    <script>
+
+        function toggleProfileMenu() {
+
+            const menu = document.getElementById("profileDropdown");
+
+            if (!menu) return;
+
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
+
+        }
+
+        document.addEventListener("click", function (event) {
+
+            const profile = document.querySelector(".user-profile");
+            const menu = document.getElementById("profileDropdown");
+
+            if (profile && menu && !profile.contains(event.target)) {
+                menu.style.display = "none";
+            }
+
+        });
+
+    </script>
 
 </body>
 

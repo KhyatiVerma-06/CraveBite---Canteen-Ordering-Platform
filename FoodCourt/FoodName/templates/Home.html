@@ -14,7 +14,7 @@
         <div class="logo">
             <img src="{% static 'images/Logo.png' %}" alt="CraveBite Logo">
         </div>
-        <div class="nav-links">
+        <div class="nav-links" id="navLinks">
             <a href="#" class="active">Home</a>
             <a href="{% url 'menu' %}">Menu</a>
             <a href="{% url 'cart' %}">Cart 🛒</a>
@@ -24,11 +24,129 @@
             <a href="{% url 'offers' %}">Offers</a>
             <a href="{% url 'about' %}">About </a>
         </div>
+        <button class="menu-toggle" onclick="toggleMenu()">
+            ☰
+        </button>
         <div class="nav-buttons">
+
+            {% if user.is_authenticated %}
+
+            <div class="user-profile">
+
+                <div class="user-profile-button" onclick="toggleProfileMenu()">
+
+                    <div class="user-avatar">
+                        {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                    </div>
+
+                    <span class="user-name">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </span>
+
+
+
+                </div>
+
+
+                <!-- PROFILE DROPDOWN -->
+                <div class="profile-dropdown" id="profileDropdown">
+
+                    <div class="profile-header">
+
+                        <div class="profile-avatar">
+                            {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                        </div>
+
+                        <div class="profile-info">
+                            <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                            <p>{{ user.email }}</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-menu">
+
+                        <a href="{% url 'profile' %}">
+                            <span>👤</span>
+                            My Profile
+                        </a>
+
+                        <a href="{% url 'my_orders' %}">
+                            <span>📋</span>
+                            My Orders
+                        </a>
+                        <a href="{% url 'reviews' %}"><span>⭐</span>Reviews</a>
+
+                        <a href="{% url 'notifications' %}">
+                            <span>🔔</span>
+                            Notifications
+
+                            {% if unread_notification_count > 0 %}
+                            <strong class="notification-badge">
+                                {{ unread_notification_count }}
+                            </strong>
+                            {% endif %}
+                        </a>
+
+                        {% if user.is_authenticated %}
+                        {% if user.deliverypartner %}
+                        <a href="{% url 'delivery_dashboard' %}">
+                            <span>🚚</span>
+                            Delivery Dashboard
+                        </a>
+                        {% endif %}
+                        {% endif %}
+
+                        {% if user.is_staff and not user.deliverypartner %}
+                        <a href="{% url 'admin_dashboard' %}">
+                            <span>📊</span>
+                            Admin Dashboard
+                        </a>
+                        {% endif %}
+
+                        <a href="{% url 'settings' %}">
+                            <span>⚙️</span>
+                            Settings
+                        </a>
+
+                    </div>
+
+
+                    <div class="profile-logout">
+
+                        <a href="{% url 'logout' %}">
+                            <span>↪</span>
+                            Logout
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% else %}
+
             <a href="{% url 'login' %}" class="login-btn">Login</a>
             <a href="{% url 'signup' %}" class="cart-btn">Sign Up</a>
+
+            {% endif %}
+
         </div>
     </nav>
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="success-message">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
     <!-- HERO SECTION -->
     <section class="hero">
         <div class="hero-overlay"></div>
@@ -462,35 +580,74 @@
         </div>
 
     </footer>
-
     <script>
 
-        const showMoreBtn = document.getElementById("showMoreBtn");
+        // SHOW MORE / SHOW LESS
 
+        const showMoreBtn = document.getElementById("showMoreBtn");
         const categoryContainer =
             document.querySelector(".category-container");
 
+        if (showMoreBtn && categoryContainer) {
 
-        showMoreBtn.addEventListener("click", function () {
+            showMoreBtn.addEventListener("click", function () {
 
-            categoryContainer.classList.toggle("show-all");
+                categoryContainer.classList.toggle("show-all");
+
+                if (categoryContainer.classList.contains("show-all")) {
+
+                    showMoreBtn.innerHTML =
+                        'Show Less <span> ← </span>';
+
+                } else {
+
+                    showMoreBtn.innerHTML =
+                        'Show More <span>→</span>';
+
+                }
+
+            });
+
+        }
 
 
-            if (categoryContainer.classList.contains("show-all")) {
+        // PROFILE DROPDOWN
 
-                showMoreBtn.innerHTML =
-                    'Show Less <span> ← </span>';
+        function toggleProfileMenu() {
 
+            const menu = document.getElementById("profileDropdown");
+
+            if (!menu) return;
+
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
             } else {
+                menu.style.display = "block";
+            }
 
-                showMoreBtn.innerHTML =
-                    'Show More <span>→</span>';
+        }
+
+
+        // CLOSE DROPDOWN WHEN CLICKING OUTSIDE
+
+        document.addEventListener("click", function (event) {
+
+            const profile = document.querySelector(".user-profile");
+            const menu = document.getElementById("profileDropdown");
+
+            if (profile && menu && !profile.contains(event.target)) {
+
+                menu.style.display = "none";
 
             }
 
         });
-
+        function toggleMenu() {
+            const navLinks = document.getElementById("navLinks");
+            navLinks.classList.toggle("active");
+        }
     </script>
+
 </body>
 
 </html>

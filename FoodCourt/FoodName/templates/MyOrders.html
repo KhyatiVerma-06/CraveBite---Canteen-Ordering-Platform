@@ -39,13 +39,99 @@
 
         <div class="nav-buttons">
 
-            <a href="{% url 'login' %}" class="login-btn">
-                Login
-            </a>
+            {% if user.is_authenticated %}
 
-            <a href="{% url 'signup' %}" class="cart-btn">
-                Sign Up
-            </a>
+            <div class="user-profile">
+
+                <div class="user-profile-button" onclick="toggleProfileMenu()">
+
+                    <div class="user-avatar">
+                        {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                    </div>
+
+                    <span class="user-name">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </span>
+
+
+                </div>
+
+                <div class="profile-dropdown" id="profileDropdown">
+
+                    <div class="profile-header">
+
+                        <div class="profile-avatar">
+                            {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                        </div>
+
+                        <div class="profile-info">
+                            <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                            <p>{{ user.email }}</p>
+                        </div>
+
+                    </div>
+
+                    <div class="profile-menu">
+
+                        <a href="{% url 'profile' %}">
+                            <span>👤</span>
+                            My Profile
+                        </a>
+
+                        <a href="{% url 'my_orders' %}">
+                            <span>📋</span>
+                            My Orders
+                        </a>
+                        <a href="{% url 'reviews' %}"><span>⭐</span>Reviews</a>
+
+                        <a href="{% url 'notifications' %}">
+                            <span>🔔</span>
+                            Notifications
+
+                            {% if unread_notification_count > 0 %}
+                            <strong class="notification-badge">
+                                {{ unread_notification_count }}
+                            </strong>
+                            {% endif %}
+                        </a>
+                        {% if user.is_authenticated %}
+                        {% if user.deliverypartner %}
+                        <a href="{% url 'delivery_dashboard' %}">
+                            <span>🚚</span>
+                            Delivery Dashboard
+                        </a>
+                        {% endif %}
+                        {% endif %}
+                        {% if user.is_staff and not user.deliverypartner %}
+                        <a href="{% url 'admin_dashboard' %}">
+                            <span>📊</span>
+                            Admin Dashboard
+                        </a>
+                        {% endif %}
+                        <a href="{% url 'settings' %}">
+                            <span>⚙️</span>
+                            Settings
+                        </a>
+
+                    </div>
+
+                    <div class="profile-logout">
+                        <a href="{% url 'logout' %}">
+                            <span>↪</span>
+                            Logout
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <a href="{% url 'login' %}" class="login-btn">Login</a>
+            <a href="{% url 'signup' %}" class="cart-btn">Sign Up</a>
+
+            {% endif %}
 
         </div>
 
@@ -66,88 +152,143 @@
 
             {% if orders %}
 
-                {% for order in orders %}
+            {% for order in orders %}
 
-                <div class="order-card">
+            <div class="order-card">
 
-                    <div class="order-card-header">
+                <div class="order-card-header">
 
-                        <div>
-                            <span>Order ID</span>
-                            <h3>#{{ order.id }}</h3>
-                        </div>
-
-                        <div class="order-status">
-                            {{ order.status }}
-                        </div>
-
+                    <div>
+                        <span>Order ID</span>
+                        <h3>#{{ order.id }}</h3>
                     </div>
 
-
-                    <div class="order-details">
-
-                        <div>
-                            <span>Customer</span>
-                            <strong>{{ order.name }}</strong>
-                        </div>
-
-                        <div>
-                            <span>Payment</span>
-                            <strong>{{ order.payment_method }}</strong>
-                        </div>
-
-                        <div>
-                            <span>Total</span>
-                            <strong>₹{{ order.total_amount }}</strong>
-                        </div>
-
-                        <div>
-                            <span>Date</span>
-                            <strong>{{ order.created_at|date:"d M Y, h:i A" }}</strong>
-                        </div>
-
+                    <div class="order-status">
+                        {{ order.status }}
                     </div>
 
+                    <div class="order-tracking">
 
-                    <div class="order-address">
+                        <div class="tracking-step 
+        {% if order.status == 'Order Placed' or order.status == 'Preparing' or order.status == 'Out for Delivery' or order.status == 'Delivered' %}
+        completed
+        {% endif %}">
 
-                        <span>Delivery Address</span>
+                            <div class="tracking-circle">✓</div>
+                            <span>Order Placed</span>
 
-                        <p>
-                            {{ order.address }}
-                        </p>
-
-                    </div>
+                        </div>
 
 
-                    <div class="order-card-footer">
+                        <div class="tracking-line"></div>
 
-                        <a href="{% url 'order_success' order.id %}"
-                           class="view-order-btn">
-                            View Order
-                        </a>
+
+                        <div class="tracking-step 
+        {% if order.status == 'Preparing' or order.status == 'Out for Delivery' or order.status == 'Delivered' %}
+        completed
+        {% endif %}">
+
+                            <div class="tracking-circle">✓</div>
+                            <span>Preparing</span>
+
+                        </div>
+
+
+                        <div class="tracking-line"></div>
+
+
+                        <div class="tracking-step 
+        {% if order.status == 'Out for Delivery' or order.status == 'Delivered' %}
+        completed
+        {% endif %}">
+
+                            <div class="tracking-circle">✓</div>
+                            <span>Out for Delivery</span>
+
+                        </div>
+
+
+                        <div class="tracking-line"></div>
+
+
+                        <div class="tracking-step 
+        {% if order.status == 'Delivered' %}
+        completed
+        {% endif %}">
+
+                            <div class="tracking-circle">✓</div>
+                            <span>Delivered</span>
+
+                        </div>
 
                     </div>
 
                 </div>
 
-                {% endfor %}
 
-            {% else %}
+                <div class="order-details">
 
-                <div class="empty-orders">
+                    <div>
+                        <span>Customer</span>
+                        <strong>{{ order.name }}</strong>
+                    </div>
 
-                    <h2>No Orders Yet</h2>
+                    <div>
+                        <span>Payment</span>
+                        <strong>{{ order.payment_method }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Total</span>
+                        <strong>₹{{ order.total_amount }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Date</span>
+                        <strong>{{ order.created_at|date:"d M Y, h:i A" }}</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="order-address">
+
+                    <span>Delivery Address</span>
 
                     <p>
-                        You haven't placed any orders yet.
+                        {{ order.address }}
                     </p>
 
-                    <a href="{% url 'menu' %}" class="success-btn">
-                        Explore Menu
+                </div>
+
+
+                <div class="order-card-footer">
+
+                    <a href="{% url 'order_success' order.id %}" class="view-order-btn">
+                        View Order
                     </a>
 
                 </div>
+
+            </div>
+
+            {% endfor %}
+
+            {% else %}
+
+            <div class="empty-orders">
+
+                <h2>No Orders Yet</h2>
+
+                <p>
+                    You haven't placed any orders yet.
+                </p>
+
+                <a href="{% url 'menu' %}" class="success-btn">
+                    Explore Menu
+                </a>
+
+            </div>
 
             {% endif %}
 
@@ -217,6 +358,34 @@
         </div>
 
     </footer>
+    <script>
+
+        function toggleProfileMenu() {
+
+            const menu = document.getElementById("profileDropdown");
+
+            if (!menu) return;
+
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
+
+        }
+
+        document.addEventListener("click", function (event) {
+
+            const profile = document.querySelector(".user-profile");
+            const menu = document.getElementById("profileDropdown");
+
+            if (profile && menu && !profile.contains(event.target)) {
+                menu.style.display = "none";
+            }
+
+        });
+
+    </script>
 
 </body>
 
