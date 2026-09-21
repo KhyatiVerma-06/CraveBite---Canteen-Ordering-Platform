@@ -1,5 +1,7 @@
 # 🍔 CraveBite – Canteen Ordering Platform
 
+🚀 **Live Demo:** [Visit CraveBite](https://cravebite-canteen-ordering-platform.onrender.com)
+
 CraveBite is a full-stack canteen ordering platform built with Django and designed to provide a simple and user-friendly food ordering experience.
 
 The project includes a responsive frontend for browsing food items, viewing offers, managing the cart, and handling user login/signup functionality. The backend is developed using Django with database support for managing application data.
