@@ -1,4 +1,4 @@
-__pycache__/
+
 *.pyc
 *.pyo
 
@@ -6,8 +6,19 @@ foodWorld/
 venv/
 env/
 
-.env
+FoodCourt/.env
+FoodCourt/__pycache__/
+FoodCourt/*.sqlite3
 
-*.sqlite3
 
 .vscode/
+
+# Django and local files
+FoodCourt/staticfiles/
+FoodCourt/__pycache__/
+FoodCourt/**/*.pyc
+
+# Temporary migration files
+FoodCourt/old_*.csv
+FoodCourt/fooditems*.csv
+FoodCourt/import_*.py
